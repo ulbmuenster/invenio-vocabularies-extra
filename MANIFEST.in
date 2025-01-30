@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2025 University of Münster.
+#
+# invenio-vocabularies-extra is free software; you can redistribute it and/or
+# modify it under the terms of the MIT License; see LICENSE file for more
+# details.
+
+# TODO: Generate this manifest file by running the following commands:
+# (please sort the lines in this file after running below commands)
+#
+#  git init
+#  git add -A
+#  pip install -e .[all]
+#  check-manifest -u
+
+include .dockerignore
+include .editorconfig
+include .tx/config
+include *.rst
+include *.sh
+include *.yml
+include babel.ini
+recursive-include invenio_vocabularies_extra/translations *.po *.pot *.mo
+recursive-include invenio_vocabularies_extra *.py
+recursive-include invenio_vocabularies_extra *.yaml
+recursive-include tests *.py
