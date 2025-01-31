@@ -68,10 +68,10 @@ class DdcYamlTransformer(BaseTransformer):
         }
         result["identifiers"].append(identifier)
         for lang in self._supported_languages:
-            if lang in entry_data:
-                result["title"][lang] = entry_data[lang]
-            if lang == default_lang:
-                result["subject"] = entry_data[lang]
+            if lang[0] in entry_data:
+                result["title"][lang[0]] = entry_data[lang[0]]
+            if lang[0] == default_lang:
+                result["subject"] = entry_data[lang[0]]
 
         stream_entry.entry = result
         return stream_entry
