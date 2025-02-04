@@ -312,7 +312,7 @@ class GNDMarc21Transformer(BaseTransformer):
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "gndsubjects": GNDMarc21Transformer,
+    "gnd-subjects": GNDMarc21Transformer,
 }
 
 
@@ -335,7 +335,7 @@ DATASTREAM_CONFIG = {
             },
         },
     ],
-    "transformers": [{"type": "gndsubjects"}],
+    "transformers": [{"type": "gnd-subjects"}],
     "writers": [
         {
             "type": "subjects-service",
@@ -345,6 +345,4 @@ DATASTREAM_CONFIG = {
         }
     ],
 }
-"""gndsubjects Data Stream configuration.
-
-"""
+"""gnd-subjects Data Stream configuration."""

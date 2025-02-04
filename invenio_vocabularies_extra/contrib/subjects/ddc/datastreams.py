@@ -8,7 +8,9 @@
 
 """Custom datastream transformer for GND subjects."""
 from flask import current_app
+from invenio_access.permissions import system_identity
 from invenio_i18n.proxies import current_i18n
+from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 
 
@@ -25,7 +27,7 @@ class DdcYamlTransformer(BaseTransformer):
         Transform YAML data to internal format.
 
         Input:
-           A stream_entry.entry is a dict withthe values:
+           A stream_entry.entry is a dict with the values:
            - id
            - en
            - de
@@ -75,3 +77,39 @@ class DdcYamlTransformer(BaseTransformer):
 
         stream_entry.entry = result
         return stream_entry
+
+
+VOCABULARIES_DATASTREAM_TRANSFORMERS = {
+    "ddc-ubjects": DdcYamlTransformer,
+}
+
+
+VOCABULARIES_DATASTREAM_WRITERS = {
+    "subjects-service": SubjectsServiceWriter,
+}
+
+
+DATASTREAM_CONFIG = {
+    "readers": [
+        {
+            "type": "oaireader",
+            "args": {
+                "verb": "ListRecords",
+                "base_url": "https://services.dnb.de/oai/repository",
+                "metadata_prefix": "MARC21-xml",
+                "set": "authorities:sachbegriff",
+                "from": "now-10min",
+                "until": "now",
+            },
+        },
+    ],
+    "transformers": [{"type": "ddc-subjects"}],
+    "writers": [
+        {
+            "type": "subjects-service",
+            "args": {
+                "identity": system_identity,
+            },
+        }
+    ],
+}
