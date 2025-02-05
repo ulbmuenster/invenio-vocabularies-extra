@@ -59,7 +59,7 @@ class DdcYamlTransformer(BaseTransformer):
             "title": {},
             "subject": "",
             "id": "",
-            "scheme": "GND",
+            "scheme": "DDC",
             "synonyms": [],
             "identifiers": [],
         }
@@ -73,14 +73,14 @@ class DdcYamlTransformer(BaseTransformer):
             if lang[0] in entry_data:
                 result["title"][lang[0]] = entry_data[lang[0]]
             if lang[0] == default_lang:
-                result["subject"] = entry_data[lang[0]]
+                result["subject"] = f"{entry_data['id']} {entry_data[lang[0]]}"
 
         stream_entry.entry = result
         return stream_entry
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "ddc-ubjects": DdcYamlTransformer,
+    "ddc-subjects": DdcYamlTransformer,
 }
 
 
@@ -89,27 +89,20 @@ VOCABULARIES_DATASTREAM_WRITERS = {
 }
 
 
-DATASTREAM_CONFIG = {
+DDC_PRESET_DATASTREAM_CONFIG = {
     "readers": [
         {
-            "type": "oaireader",
+            "type": "yaml",
             "args": {
-                "verb": "ListRecords",
-                "base_url": "https://services.dnb.de/oai/repository",
-                "metadata_prefix": "MARC21-xml",
-                "set": "authorities:sachbegriff",
-                "from": "now-10min",
-                "until": "now",
+                "origin": "/home/gressho/Dokumente/ddc.yaml",
             },
         },
     ],
     "transformers": [{"type": "ddc-subjects"}],
     "writers": [
         {
-            "type": "subjects-service",
-            "args": {
-                "identity": system_identity,
-            },
+            "args": {"writer": {"type": "subjects-service"}},
+            "type": "async",
         }
     ],
 }

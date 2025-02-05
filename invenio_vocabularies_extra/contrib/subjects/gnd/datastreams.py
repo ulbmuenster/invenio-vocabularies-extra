@@ -324,7 +324,7 @@ VOCABULARIES_DATASTREAM_WRITERS = {
 DATASTREAM_CONFIG = {
     "readers": [
         {
-            "type": "oaireader",
+            "type": "oai-pmh",
             "args": {
                 "verb": "ListRecords",
                 "base_url": "https://services.dnb.de/oai/repository",
@@ -338,10 +338,8 @@ DATASTREAM_CONFIG = {
     "transformers": [{"type": "gnd-subjects"}],
     "writers": [
         {
-            "type": "subjects-service",
-            "args": {
-                "identity": system_identity,
-            },
+            "args": {"writer": {"type": "subjects-service"}},
+            "type": "async",
         }
     ],
 }

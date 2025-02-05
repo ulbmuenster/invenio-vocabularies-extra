@@ -8,6 +8,7 @@
 
 """Custom jobs module."""
 from invenio_vocabularies.jobs import ProcessDataStreamJob
+from .contrib.subjects.ddc.datastreams import DDC_PRESET_DATASTREAM_CONFIG
 
 
 class ProcessDDCJob(ProcessDataStreamJob):
@@ -20,10 +21,4 @@ class ProcessDDCJob(ProcessDataStreamJob):
     @classmethod
     def build_task_arguments(cls, job_obj, since=None, **kwargs):
         """Process DDC subjects."""
-        return {
-            "config": {
-                "readers": [],
-                "writers": [],
-                "transformers": [],
-            }
-        }
+        return {"config": {**DDC_PRESET_DATASTREAM_CONFIG}}
