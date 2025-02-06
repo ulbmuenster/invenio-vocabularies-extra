@@ -8,7 +8,6 @@
 
 """Custom datastream transformer for GND subjects."""
 import lxml.etree as ET
-from invenio_access.permissions import system_identity
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 
@@ -200,7 +199,7 @@ ISO639_1_TO_2 = {
 }
 
 
-class GNDMarc21Transformer(BaseTransformer):
+class GNDSubjectMarc21Transformer(BaseTransformer):
     """Custom datastream transformer for GND subjects."""
 
     def apply(self, stream_entry, **kwargs):
@@ -265,11 +264,13 @@ class GNDMarc21Transformer(BaseTransformer):
             if subfield_a is not None:
                 title_de = subfield_a.text
                 subfield_x = datafield_150.find(f"{xmlns}subfield[@code='x']")
-                title_de = " / ".join(filter(None, [subfield_x.text, title_de]))
+                if subfield_x is not None:
+                    title_de = " / ".join(filter(None, [subfield_x.text, title_de]))
                 subfield_g = datafield_150.find(f"{xmlns}subfield[@code='g']")
-                year = "".join(filter(None, [" <", subfield_g.text, ">"]))
-                if len(year) > 2:
-                    title_de += year
+                if subfield_g is not None:
+                    year = "".join(filter(None, [" <", subfield_g.text, ">"]))
+                    if len(year) > 2:
+                        title_de += year
                 result["title"]["de"] = title_de
                 result["subject"] = title_de
 
@@ -300,11 +301,13 @@ class GNDMarc21Transformer(BaseTransformer):
             if subfield_a is not None and subfield_a.text not in result["synonyms"]:
                 synonym = subfield_a.text
                 subfield_x = df.find(f"{xmlns}subfield[@code='x']")
-                synonym = " / ".join(filter(None, [subfield_x.text, synonym]))
+                if subfield_x is not None:
+                    synonym = " / ".join(filter(None, [subfield_x.text, synonym]))
                 subfield_g = df.find(f"{xmlns}subfield[@code='g']")
-                year = "".join(filter(None, [" <", subfield_g.text, ">"]))
-                if len(year) > 2:
-                    synonym += year
+                if subfield_g is not None:
+                    year = "".join(filter(None, [" <", subfield_g.text, ">"]))
+                    if len(year) > 2:
+                        synonym += year
                 result["synonyms"].append(synonym)
 
         stream_entry.entry = result
@@ -312,7 +315,7 @@ class GNDMarc21Transformer(BaseTransformer):
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "gnd-subjects": GNDMarc21Transformer,
+    "gnd-subjects": GNDSubjectMarc21Transformer,
 }
 
 
@@ -321,7 +324,7 @@ VOCABULARIES_DATASTREAM_WRITERS = {
 }
 
 
-DATASTREAM_CONFIG = {
+GND_PRESET_DATASTREAM_CONFIG = {
     "readers": [
         {
             "type": "oai-pmh",
@@ -330,8 +333,8 @@ DATASTREAM_CONFIG = {
                 "base_url": "https://services.dnb.de/oai/repository",
                 "metadata_prefix": "MARC21-xml",
                 "set": "authorities:sachbegriff",
-                "from": "now-10min",
-                "until": "now",
+                "from_date": "now-10min",
+                "until_date": "now",
             },
         },
     ],
