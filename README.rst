@@ -11,5 +11,19 @@
 
 Add some extras to the vocabularies module like DDC and GND subjects.
 
-TODO: Please provide feature overview of module
+This module is based on `invenio-vocabularies` and offers additional readers, transformers and job.
+
+:Readers:
+    *Marc21CollectionReader* for a one-time import of Marc21-xml formatted authority collections
+
+:Transformers:
+    *DdcYamlTransformer* for transformation of a yaml based DDC source file
+    *GNDSubjectMarc21Transformer* to transform GND subjects
+
+:Jobs:
+    *ProcessDDCJob* for an import of DDC subjects (to level 3) in different languages
+    *ImportCompleteGndSubjectsJob* for a one-time import of a GND authorities file
+    *ProcessGNDSubjectsJob* for a regular OAI-PMH based harvesting of GND authorities
+
+
 
