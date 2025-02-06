@@ -7,11 +7,9 @@
 # details.
 
 """Custom jobs module."""
-from flask import current_app
-
 import arrow
-
 from invenio_vocabularies.jobs import ProcessDataStreamJob
+
 from .contrib.subjects.ddc.datastreams import DDC_PRESET_DATASTREAM_CONFIG
 
 

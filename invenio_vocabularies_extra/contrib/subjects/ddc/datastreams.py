@@ -8,7 +8,6 @@
 
 """Custom datastream transformer for GND subjects."""
 from flask import current_app
-from invenio_access.permissions import system_identity
 from invenio_i18n.proxies import current_i18n
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
