@@ -29,8 +29,8 @@ class ProcessDDCJob(ProcessDataStreamJob):
 class ProcessGNDSubjectsJob(ProcessDataStreamJob):
     """Process GND subjects datastream registered task."""
 
-    description = "Import GND subjects"
-    title = "Load GND subjects"
+    description = "Import GND subjects updates"
+    title = "Load GND subjects updates"
     id = "process_gnd_subjects"
 
     @classmethod
@@ -58,6 +58,39 @@ class ProcessGNDSubjectsJob(ProcessDataStreamJob):
                             "until_date": until,
                         },
                     },
+                ],
+                "transformers": [{"type": "gnd-subjects"}],
+                "writers": [
+                    {
+                        "args": {"writer": {"type": "subjects-service"}},
+                        "type": "async",
+                    }
+                ],
+            }
+        }
+
+
+class ImportCompleteGndSubjectsJob(ProcessDataStreamJob):
+    """Import the complete GND subjects from gzipped file."""
+
+    description = "Import GND subjects completely"
+    title = "Import complete GND subjects"
+    id = "import_gnd_subjects"
+
+    @classmethod
+    def build_task_arguments(cls, job_obj, since=None, **kwargs):
+        """Process GND subjects."""
+        return {
+            "config": {
+                "readers": [
+                    {
+                        "type": "http",
+                        "args": {
+                            "origin": "https://data.dnb.de/GND/authorities-gnd-sachbegriff_dnbmarc_20241013.mrc.xml.gz"
+                        },
+                    },
+                    {"type": "gzip"},
+                    {"type": "marc21"},
                 ],
                 "transformers": [{"type": "gnd-subjects"}],
                 "writers": [

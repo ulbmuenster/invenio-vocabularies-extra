@@ -66,8 +66,8 @@ def expected_ddc_result():
     return {
         "id": "551",
         "identifiers": [{"identifier": "http://dewey.info/551", "scheme": "url"}],
-        "scheme": "GND",
-        "subject": "Geology, hydrology, meteorology",
+        "scheme": "DDC",
+        "subject": "551 Geology, hydrology, meteorology",
         "title": {
             "en": "Geology, hydrology, meteorology",
             "de": "Geologie, Hydrologie, Meteorologie",

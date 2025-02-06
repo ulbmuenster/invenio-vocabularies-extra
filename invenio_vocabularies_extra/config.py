@@ -8,8 +8,9 @@
 
 """Add some extras to the vocabularies module like DDC and GND subjects.."""
 
-# TODO: This is an example file. Remove it if your package does not use any
-# extra configuration variables.
+from .datastreams.readers import Marc21CollectionReader
 
 VOCABULARIES_EXTRA_DDC_SUBJECT_LANG = "de"
 """Default lang getting mapped to vocabularies' subject."""
+
+VOCABULARIES_DATASTREAM_READERS = {"marc21": Marc21CollectionReader}

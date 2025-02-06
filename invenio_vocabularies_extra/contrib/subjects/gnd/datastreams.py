@@ -233,7 +233,9 @@ class GNDSubjectMarc21Transformer(BaseTransformer):
            }
         """
         if isinstance(stream_entry.entry["record"], Record):
-            record = ET.fromstring(stream_entry.entry["record"].get_metadata()["record"])
+            record = ET.fromstring(
+                stream_entry.entry["record"].get_metadata()["record"]
+            )
         else:
             record = ET.fromstring(stream_entry.entry["record"])
         xmlns = "{http://www.loc.gov/MARC21/slim}"
