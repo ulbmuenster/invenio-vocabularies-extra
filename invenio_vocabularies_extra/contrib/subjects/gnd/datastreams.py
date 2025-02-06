@@ -10,6 +10,7 @@
 import lxml.etree as ET
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
+from oaipmh_scythe.models import Record
 
 ISO639_1_TO_2 = {
     "aar": "aa",
@@ -231,7 +232,10 @@ class GNDSubjectMarc21Transformer(BaseTransformer):
                ],
            }
         """
-        record = ET.fromstring(stream_entry.entry["record"].get_metadata()["record"])
+        if isinstance(stream_entry.entry["record"], Record):
+            record = ET.fromstring(stream_entry.entry["record"].get_metadata()["record"])
+        else:
+            record = ET.fromstring(stream_entry.entry["record"])
         xmlns = "{http://www.loc.gov/MARC21/slim}"
 
         result = {
