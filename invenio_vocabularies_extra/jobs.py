@@ -11,6 +11,7 @@ import arrow
 from invenio_vocabularies.jobs import ProcessDataStreamJob
 
 from .contrib.subjects.ddc.datastreams import DDC_PRESET_DATASTREAM_CONFIG
+from .contrib.subjects.gnd.datastreams import GND_FULL_DATASTREAM_CONFIG
 
 
 class ProcessDDCJob(ProcessDataStreamJob):
@@ -80,24 +81,4 @@ class ImportCompleteGndSubjectsJob(ProcessDataStreamJob):
     @classmethod
     def build_task_arguments(cls, job_obj, since=None, **kwargs):
         """Process GND subjects."""
-        return {
-            "config": {
-                "readers": [
-                    {
-                        "type": "http",
-                        "args": {
-                            "origin": "https://data.dnb.de/GND/authorities-gnd-sachbegriff_dnbmarc_20241013.mrc.xml.gz"
-                        },
-                    },
-                    {"type": "gzip"},
-                    {"type": "marc21"},
-                ],
-                "transformers": [{"type": "gnd-subjects"}],
-                "writers": [
-                    {
-                        "args": {"writer": {"type": "subjects-service"}},
-                        "type": "async",
-                    }
-                ],
-            }
-        }
+        return {"config": {**GND_FULL_DATASTREAM_CONFIG}}

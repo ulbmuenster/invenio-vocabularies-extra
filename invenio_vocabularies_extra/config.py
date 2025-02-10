@@ -13,6 +13,9 @@ from .datastreams.readers import Marc21CollectionReader
 VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG = "de"
 """Default lang getting mapped to vocabularies' subject."""
 
-"https://data.dnb.de/GND/authorities-gnd-sachbegriff_dnbmarc_20241013.mrc.xml.gz"
+VOCABULARIES_EXTRA_SUBJECTS_GND_FILE_URL = (
+    "https://data.dnb.de/GND/authorities-gnd-sachbegriff_dnbmarc_20241013.mrc.xml.gz"
+)
+"""URI to the full GND subjects authorities file."""
 
 VOCABULARIES_DATASTREAM_READERS = {"marc21": Marc21CollectionReader}
