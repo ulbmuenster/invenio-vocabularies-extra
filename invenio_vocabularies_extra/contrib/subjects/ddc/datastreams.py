@@ -7,6 +7,7 @@
 # details.
 
 """Custom datastream transformer for GND subjects."""
+
 from flask import current_app
 from invenio_i18n.proxies import current_i18n
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
@@ -50,7 +51,7 @@ class DdcYamlTransformer(BaseTransformer):
            }
         """
         entry_data = stream_entry.entry
-        default_lang = current_app.config["VOCABULARIES_EXTRA_DDC_SUBJECT_LANG"]
+        default_lang = current_app.config["VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG"]
         if default_lang not in self._supported_languages:
             default_lang = "en"
 

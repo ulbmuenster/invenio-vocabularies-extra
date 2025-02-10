@@ -24,7 +24,7 @@ from invenio_i18n import InvenioI18N
 def app_config(app_config):
     """Application config override."""
     # TODO: Override any necessary config values for tests
-    app_config["VOCABULARIES_EXTRA_DDC_SUBJECT_LANG"] = "de"
+    app_config["VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG"] = "de"
     return app_config
 
 
@@ -40,7 +40,7 @@ def base_app():
     instance_path = tempfile.mkdtemp()
     app_ = Flask("testapp", instance_path=instance_path)
     app_.config.update(
-        VOCABULARIES_EXTRA_DDC_SUBJECT_LANG="de",
+        VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG="de",
         ACCOUNTS_USE_CELERY=False,
         SECRET_KEY="CHANGE_ME",
         SECURITY_PASSWORD_SALT="CHANGE_ME_ALSO",
