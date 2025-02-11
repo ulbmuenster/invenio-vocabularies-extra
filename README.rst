@@ -26,8 +26,11 @@ This module is based on `invenio-vocabularies` and offers additional readers, tr
 
 :Jobs:
     *ProcessDDCJob* for an import of DDC subjects (to level 3) in different languages
+
     *ImportCompleteGndSubjectsJob* for a one-time import of a GND authorities file
+
     *ProcessGNDSubjectsJob* for a regular OAI-PMH based harvesting of GND authorities
+    
     *ProcessMeshSubjectsJob* to process a full zipped XML-based MeSH file via http
 
 
