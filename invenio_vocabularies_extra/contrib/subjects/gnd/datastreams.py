@@ -7,10 +7,12 @@
 # details.
 
 """Custom datastream transformer for GND subjects."""
+
 import lxml.etree as ET
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 from oaipmh_scythe.models import Record
+
 from ..config import gnd_file_url
 
 ISO639_1_TO_2 = {
@@ -360,9 +362,7 @@ GND_FULL_DATASTREAM_CONFIG = {
     "readers": [
         {
             "type": "http",
-            "args": {
-                "origin": gnd_file_url
-            },
+            "args": {"origin": gnd_file_url},
         },
         {"type": "gzip"},
         {"type": "marc21"},

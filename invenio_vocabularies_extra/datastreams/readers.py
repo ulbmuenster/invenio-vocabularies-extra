@@ -22,3 +22,14 @@ class Marc21CollectionReader(BaseReader):
         records = collection.findall(f"{xmlns}record")
         for record in records:
             yield {"record": etree.tostring(record)}
+
+
+class MeshReader(BaseReader):
+    """Reader for MeSH xml data."""
+
+    def _iter(self, fp, *args, **kwargs):
+        """Yields single records from MeSH-xml descriptorRecordSet."""
+        descriptorRecordSet = etree.parse(fp)
+        descriptorRecords = descriptorRecordSet.findall("DescriptorRecord")
+        for descriptorRecord in descriptorRecords:
+            yield {"record": etree.tostring(descriptorRecord)}

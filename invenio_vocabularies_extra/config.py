@@ -18,4 +18,12 @@ VOCABULARIES_EXTRA_SUBJECTS_GND_FILE_URL = (
 )
 """URI to the full GND subjects authorities file."""
 
+VOCABULARIES_EXTRA_SUBJECTS_MESH_LANG = "de"
+"""Additional language in MeSH authorities file, must be part of I18N_LANGUAGES."""
+
+VOCABULARIES_EXTRA_SUBJECTS_MESH_FILE_URL = (
+    "https://repository.publisso.de/resource/frl:6473340/data"
+)
+"""URI to the MeSH authorities file. Provide an URI fitting to VOCABULARIES_EXTRA_SUBJECTS_MESH_LANG."""
+
 VOCABULARIES_DATASTREAM_READERS = {"marc21": Marc21CollectionReader}

@@ -52,7 +52,11 @@ class DdcYamlTransformer(BaseTransformer):
         """
         entry_data = stream_entry.entry
         default_lang = current_app.config["VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG"]
-        if default_lang not in self._supported_languages:
+        default_lang_supported = False
+        for language in self._supported_languages:
+            if default_lang in language:
+                default_lang_supported = True
+        if not default_lang_supported:
             default_lang = "en"
 
         result = {

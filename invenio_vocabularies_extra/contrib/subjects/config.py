@@ -14,3 +14,7 @@ from werkzeug.local import LocalProxy
 gnd_file_url = LocalProxy(
     lambda: current_app.config["VOCABULARIES_EXTRA_SUBJECTS_GND_FILE_URL"]
 )
+
+mesh_file_url = LocalProxy(
+    lambda: current_app.config["VOCABULARIES_EXTRA_SUBJECTS_MESH_FILE_URL"]
+)
