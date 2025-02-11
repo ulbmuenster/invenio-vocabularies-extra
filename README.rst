@@ -19,7 +19,9 @@ This module is based on `invenio-vocabularies` and offers additional readers, tr
 
 :Transformers:
     *DdcYamlTransformer* for transformation of a yaml based DDC source file
+
     *GNDSubjectMarc21Transformer* to transform GND subjects
+    
     *MeSHSubjectXMLTransformer* for bilingual, XML-based MeSH sources
 
 :Jobs:
