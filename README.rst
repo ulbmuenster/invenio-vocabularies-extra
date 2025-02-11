@@ -15,6 +15,7 @@ This module is based on `invenio-vocabularies` and offers additional readers, tr
 
 :Readers:
     *Marc21CollectionReader* for a one-time import of Marc21-xml formatted authority collections
+    
     *MeshReader* to iterate through an XML-based MeSH description file
 
 :Transformers:
