@@ -11,6 +11,7 @@
 import lxml.etree as ET
 from flask import current_app
 from invenio_i18n.proxies import current_i18n
+from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 
 from ..config import mesh_file_url
@@ -123,3 +124,33 @@ class MeSHSubjectXMLTransformer(BaseTransformer):
 
         stream_entry.entry = result
         return stream_entry
+
+
+VOCABULARIES_DATASTREAM_TRANSFORMERS = {
+    "mesh-xml-to-subjects": MeSHSubjectXMLTransformer,
+}
+
+
+VOCABULARIES_DATASTREAM_WRITERS = {
+    "subjects-service": SubjectsServiceWriter,
+}
+
+
+MESH_DATASTREAM_CONFIG = {
+    "readers": [
+        {
+            "type": "http",
+            "args": {"origin": mesh_file_url},
+        },
+        {"type": "zip"},
+        {"type": "mesh-xml"},
+    ],
+    "transformers": [{"type": "mesh-xml-to-subjects"}],
+    "writers": [
+        {
+            "args": {"writer": {"type": "subjects-service"}},
+            "type": "async",
+        }
+    ],
+}
+"""mesh-subjects Data Stream configuration."""

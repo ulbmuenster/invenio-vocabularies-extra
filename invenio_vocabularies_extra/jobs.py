@@ -12,6 +12,7 @@ from invenio_vocabularies.jobs import ProcessDataStreamJob
 
 from .contrib.subjects.ddc.datastreams import DDC_PRESET_DATASTREAM_CONFIG
 from .contrib.subjects.gnd.datastreams import GND_FULL_DATASTREAM_CONFIG
+from .contrib.subjects.mesh.datastreams import MESH_DATASTREAM_CONFIG
 
 
 class ProcessDDCJob(ProcessDataStreamJob):
@@ -82,3 +83,16 @@ class ImportCompleteGndSubjectsJob(ProcessDataStreamJob):
     def build_task_arguments(cls, job_obj, since=None, **kwargs):
         """Process GND subjects."""
         return {"config": {**GND_FULL_DATASTREAM_CONFIG}}
+
+
+class ProcessMeshSubjectsJob(ProcessDataStreamJob):
+    """Import the (bilingual) MeSH subjects from zipped file."""
+
+    description = "Import (multi-lingual) MeSH subjects"
+    title = "Import MeSH subjects"
+    id = "import_mesh_subjects"
+
+    @classmethod
+    def build_task_arguments(cls, job_obj, since=None, **kwargs):
+        """Process GND subjects."""
+        return {"config": {**MESH_DATASTREAM_CONFIG}}

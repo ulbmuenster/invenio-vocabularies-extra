@@ -8,7 +8,7 @@
 
 """Add some extras to the vocabularies module like DDC and GND subjects.."""
 
-from .datastreams.readers import Marc21CollectionReader
+from .datastreams.readers import Marc21CollectionReader, MeshReader
 
 VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG = "de"
 """Default lang getting mapped to vocabularies' subject."""
@@ -26,4 +26,7 @@ VOCABULARIES_EXTRA_SUBJECTS_MESH_FILE_URL = (
 )
 """URI to the MeSH authorities file. Provide an URI fitting to VOCABULARIES_EXTRA_SUBJECTS_MESH_LANG."""
 
-VOCABULARIES_DATASTREAM_READERS = {"marc21": Marc21CollectionReader}
+VOCABULARIES_DATASTREAM_READERS = {
+    "marc21": Marc21CollectionReader,
+    "mesh-xml": MeshReader,
+}
