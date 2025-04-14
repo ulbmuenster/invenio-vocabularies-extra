@@ -67,4 +67,4 @@ class WikidataAffiliationsReader(SPARQLReader):
 
         self._origin = origin
         self._query = query
-        super().__init__(origin=origin, mode=mode, *args, **kwargs)
+        super().__init__(origin=origin, query=query, mode=mode, *args, **kwargs)
