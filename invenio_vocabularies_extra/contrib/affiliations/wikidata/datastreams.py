@@ -10,7 +10,9 @@
 
 from flask import current_app
 from invenio_i18n.proxies import current_i18n
-from invenio_vocabularies.contrib.affiliations.datastreams import AffiliationsServiceWriter
+from invenio_vocabularies.contrib.affiliations.datastreams import (
+    AffiliationsServiceWriter,
+)
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 
 
@@ -49,7 +51,7 @@ class WikidataSPARQLTransformer(BaseTransformer):
 
         element = {
             "name": org_label,
-            "id": 'wd:' + org_id,
+            "id": "wd:" + org_id,
             "status": "active",
         }
 
@@ -59,7 +61,9 @@ class WikidataSPARQLTransformer(BaseTransformer):
             if lan[0] == "en":
                 continue
 
-            i18n_labels[lan[0]] = stream_entry.entry.get("orgLabel_" + lan[0], {}).get("value", "")
+            i18n_labels[lan[0]] = stream_entry.entry.get("orgLabel_" + lan[0], {}).get(
+                "value", ""
+            )
 
         element["title"] = i18n_labels
 
@@ -78,10 +82,14 @@ class WikidataSPARQLTransformer(BaseTransformer):
             element["acronym"] = stream_entry.entry.get("acronym", {}).get("value", "")
 
         if stream_entry.entry.get("countryLabel", {}):
-            element["country_name"] = stream_entry.entry.get("countryLabel", {}).get("value", "")
+            element["country_name"] = stream_entry.entry.get("countryLabel", {}).get(
+                "value", ""
+            )
 
         if stream_entry.entry.get("countryCode", {}):
-            element["country"] = stream_entry.entry.get("countryCode", {}).get("value", "")
+            element["country"] = stream_entry.entry.get("countryCode", {}).get(
+                "value", ""
+            )
 
         stream_entry.entry = element
         return stream_entry

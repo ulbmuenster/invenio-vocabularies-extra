@@ -8,7 +8,11 @@
 
 """Add some extras to the vocabularies module like DDC and GND subjects.."""
 
-from .datastreams.readers import Marc21CollectionReader, MeshReader, WikidataAffiliationsReader
+from .datastreams.readers import (
+    Marc21CollectionReader,
+    MeshReader,
+    WikidataAffiliationsReader,
+)
 
 VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG = "de"
 """Default lang getting mapped to vocabularies' subject."""

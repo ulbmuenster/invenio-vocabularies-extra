@@ -8,9 +8,9 @@
 
 """Extra Readers module."""
 
+from invenio_i18n.proxies import current_i18n
 from invenio_vocabularies.datastreams.readers import BaseReader, SPARQLReader
 from lxml import etree
-from invenio_i18n.proxies import current_i18n
 
 
 class Marc21CollectionReader(BaseReader):
@@ -37,13 +37,22 @@ class MeshReader(BaseReader):
 
 
 class WikidataAffiliationsReader(SPARQLReader):
-    def __init__(self, origin, search_space, mode="r", *args, **kwargs):
+    """Reader class to fetch and process affiliations data from Wikidata."""
+
+    def __init__(self, search_space, mode="r", *args, **kwargs):
+        """Initialize the reader with the data source.
+
+        :param search_space: Additional conditions for which items should be retrieved from wikidata.
+        :param mode: Mode of operation (default is 'r' for reading).
+        """
+        origin = "https://query.wikidata.org/sparql"
+
         languages = current_i18n.get_languages()
         i18n_labels = ""
         i18n_rdfs_label = ""
         for lan in languages:
             i18n_labels += f"?orgLabel_{lan[0]}"
-            i18n_rdfs_label += f"OPTIONAL {{?org rdfs:label?orgLabel_{lan[0]} FILTER (lang(?orgLabel_{lan[0]}) = \"{lan[0]}\"). }}\n"
+            i18n_rdfs_label += f'OPTIONAL {{?org rdfs:label?orgLabel_{lan[0]} FILTER (lang(?orgLabel_{lan[0]}) = "{lan[0]}"). }}\n'
 
         query = f"""
         SELECT DISTINCT ?org ?orgLabel {i18n_labels} ?countryLabel ?countryCode ?acronym ?rorID
