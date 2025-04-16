@@ -10,10 +10,10 @@
 import arrow
 from invenio_vocabularies.jobs import ProcessDataStreamJob
 
+from .contrib.affiliations.wikidata.datastreams import WIKIDATA_PRESET_DATASTREAM_CONFIG
 from .contrib.subjects.ddc.datastreams import DDC_PRESET_DATASTREAM_CONFIG
 from .contrib.subjects.gnd.datastreams import GND_FULL_DATASTREAM_CONFIG
 from .contrib.subjects.mesh.datastreams import MESH_DATASTREAM_CONFIG
-from .contrib.affiliations.wikidata.datastreams import WIKIDATA_PRESET_DATASTREAM_CONFIG
 
 
 class ProcessDDCJob(ProcessDataStreamJob):
