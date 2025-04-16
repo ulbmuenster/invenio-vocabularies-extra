@@ -9,8 +9,14 @@
 """Extra Readers module."""
 
 from invenio_i18n.proxies import current_i18n
-from invenio_vocabularies.datastreams.readers import BaseReader, SPARQLReader
+from invenio_vocabularies.datastreams.readers import BaseReader
 from lxml import etree
+
+# "sparql"
+try:
+    import SPARQLWrapper as sparql
+except ImportError:
+    sparql = None
 
 
 class Marc21CollectionReader(BaseReader):
@@ -36,7 +42,7 @@ class MeshReader(BaseReader):
             yield {"record": etree.tostring(descriptorRecord)}
 
 
-class WikidataAffiliationsReader(SPARQLReader):
+class WikidataAffiliationsReader(BaseReader):
     """Reader class to fetch and process affiliations data from Wikidata."""
 
     def __init__(self, search_space, mode="r", *args, **kwargs):
@@ -48,6 +54,7 @@ class WikidataAffiliationsReader(SPARQLReader):
         origin = "https://query.wikidata.org/sparql"
 
         languages = current_i18n.get_languages()
+
         i18n_labels = ""
         i18n_rdfs_label = ""
         for lan in languages:
@@ -69,7 +76,7 @@ class WikidataAffiliationsReader(SPARQLReader):
             {i18n_rdfs_label}
 
             SERVICE wikibase:label {{
-            bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\".
+            bd:serviceParam wikibase:language \"en\".
             }}
         }}
         """
@@ -77,3 +84,26 @@ class WikidataAffiliationsReader(SPARQLReader):
         self._origin = origin
         self._query = query
         super().__init__(origin=origin, query=query, mode=mode, *args, **kwargs)
+
+    def _iter(self, fp, *args, **kwargs):
+        raise NotImplementedError(
+            "WikidataAffiliationsReader downloads one result set from the wikidata SPARQL endpoint and therefore does not iterate through items"
+        )
+
+    def read(self, item=None, *args, **kwargs):
+        """Fetch and process RDF data, yielding results one at a time."""
+        if item:
+            raise NotImplementedError(
+                "SPARQLReader does not support being chained after another reader"
+            )
+
+        # Add user agent as wikidata policies require
+        user_agent = 'InvenioRDMVocabulariesExtra/1.0.0 (https://github.com/ulbmuenster/invenio-vocabularies-extra)'
+
+        sparql_client = sparql.SPARQLWrapper(self._origin, agent=user_agent)
+
+        sparql_client.setQuery(self._query)
+        sparql_client.setReturnFormat(sparql.JSON)
+
+        results = sparql_client.query().convert()
+        yield from results["results"]["bindings"]
