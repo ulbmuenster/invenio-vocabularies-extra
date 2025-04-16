@@ -6,7 +6,7 @@
 # modify it under the terms of the MIT License; see LICENSE file for more
 # details.
 
-"""Custom datastream transformer for GND subjects."""
+"""Custom datastream transformer for wikidata affiliations."""
 
 from flask import current_app
 from invenio_i18n.proxies import current_i18n
@@ -39,6 +39,7 @@ class WikidataSPARQLTransformer(BaseTransformer):
             'id': 'wd:Q2778415',
             'status': 'active',
             'title': {
+              'en': 'Max Planck Institute for Gravitational Physics',
               'de': 'Max-Planck-Institut für Gravitationsphysik',
               'fr': 'Institut Max-Planck de physique gravitationnelle'},
             'identifiers': [{'identifier': '03sry2h30', 'scheme': 'ror'}]
