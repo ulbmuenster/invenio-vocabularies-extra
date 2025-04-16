@@ -109,8 +109,7 @@ WIKIDATA_PRESET_DATASTREAM_CONFIG = {
         {
             "type": "wikidata",
             "args": {
-                "search_space":
-                    """
+                "search_space": """
                     {
                        ?org wdt:P31?type.
                         VALUES?type {
