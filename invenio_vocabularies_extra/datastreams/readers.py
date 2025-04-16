@@ -98,7 +98,7 @@ class WikidataAffiliationsReader(BaseReader):
             )
 
         # Add user agent as wikidata policies require
-        user_agent = 'InvenioRDMVocabulariesExtra/1.0.0 (https://github.com/ulbmuenster/invenio-vocabularies-extra)'
+        user_agent = "InvenioRDMVocabulariesExtra/1.0.0 (https://github.com/ulbmuenster/invenio-vocabularies-extra)"
 
         sparql_client = sparql.SPARQLWrapper(self._origin, agent=user_agent)
 
