@@ -48,6 +48,7 @@ def base_app():
         TESTING=True,
         I18N_LANGUAGES=[
             ("de", "German"),
+            ("fr", "French"),
         ],
     )
 
@@ -106,4 +107,22 @@ def expected_mesh_result():
                 "identifier": "https://id.nlm.nih.gov/mesh/D000003",
             },
         ],
+    }
+
+
+@pytest.fixture(scope="module")
+def expected_wikidata_result():
+    """Set the expected results."""
+    return {
+        "name": "Max Planck Institute for Gravitational Physics",
+        "country": "DE",
+        "country_name": "Germany",
+        "id": "wikidata:Q2778415",
+        "status": "active",
+        "title": {
+            "en": "Max Planck Institute for Gravitational Physics",
+            "de": "Max-Planck-Institut für Gravitationsphysik",
+            "fr": "Institut Max-Planck de physique gravitationnelle",
+        },
+        "identifiers": [{"identifier": "03sry2h30", "scheme": "ror"}],
     }

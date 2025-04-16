@@ -39,7 +39,7 @@ class WikidataSPARQLTransformer(BaseTransformer):
             'name': 'Max Planck Institute for Gravitational Physics',
             'country': 'DE',
             'country_name': 'Germany',
-            'id': 'wd:Q2778415',
+            'id': 'wikidata:Q2778415',
             'status': 'active',
             'title': {
               'en': 'Max Planck Institute for Gravitational Physics',
