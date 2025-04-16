@@ -51,16 +51,13 @@ class WikidataSPARQLTransformer(BaseTransformer):
 
         element = {
             "name": org_label,
-            "id": "wd:" + org_id,
+            "id": "wikidata:" + org_id,
             "status": "active",
         }
 
         i18n_labels = {}
 
         for lan in self._supported_languages:
-            if lan[0] == "en":
-                continue
-
             i18n_labels[lan[0]] = stream_entry.entry.get("orgLabel_" + lan[0], {}).get(
                 "value", ""
             )
@@ -91,12 +88,14 @@ class WikidataSPARQLTransformer(BaseTransformer):
                 "value", ""
             )
 
+        print(element)
+
         stream_entry.entry = element
         return stream_entry
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "wikidata-affiliations": WikidataSPARQLTransformer,
+    "wikidata": WikidataSPARQLTransformer,
 }
 
 VOCABULARIES_DATASTREAM_WRITERS = {
