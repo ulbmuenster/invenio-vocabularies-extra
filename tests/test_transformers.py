@@ -10,6 +10,9 @@
 
 from invenio_vocabularies.datastreams import StreamEntry
 
+from invenio_vocabularies_extra.contrib.affiliations.wikidata.datastreams import (
+    WikidataSPARQLTransformer,
+)
 from invenio_vocabularies_extra.contrib.subjects.ddc.datastreams import (
     DdcYamlTransformer,
 )
@@ -19,7 +22,6 @@ from invenio_vocabularies_extra.contrib.subjects.mesh.datastreams import (
 
 
 def test_ddc_transformer(app, expected_ddc_result):
-
     ddc = {
         "id": "551",
         "en": "Geology, hydrology, meteorology",
@@ -271,3 +273,37 @@ def test_mesh_transformer(app, expected_mesh_result):
 
     transformer = MeSHSubjectXMLTransformer()
     assert expected_mesh_result == transformer.apply(mesh_entry).entry
+
+
+def test_wikidata_transformer(app, expected_wikidata_result):
+    wikidata = {
+        "org": {"type": "uri", "value": "http://www.wikidata.org/entity/Q2778415"},
+        "orgLabel_fr": {
+            "xml:lang": "fr",
+            "type": "literal",
+            "value": "Institut Max-Planck de physique gravitationnelle",
+        },
+        "orgLabel_en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Max Planck Institute for Gravitational Physics",
+        },
+        "orgLabel_de": {
+            "xml:lang": "de",
+            "type": "literal",
+            "value": "Max-Planck-Institut für Gravitationsphysik",
+        },
+        "countryLabel": {"xml:lang": "en", "type": "literal", "value": "Germany"},
+        "countryCode": {"type": "literal", "value": "DE"},
+        "rorID": {"type": "literal", "value": "03sry2h30"},
+        "orgLabel": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Max Planck Institute for Gravitational Physics",
+        },
+    }
+
+    wikidata_entry = StreamEntry(wikidata)
+
+    transformer = WikidataSPARQLTransformer()
+    assert expected_wikidata_result == transformer.apply(wikidata_entry).entry
