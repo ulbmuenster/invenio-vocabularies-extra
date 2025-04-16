@@ -11,19 +11,23 @@
 
 Add some extras to the vocabularies module like DDC and GND subjects.
 
-This module is based on `invenio-vocabularies` and offers additional readers, transformers and job.
+This module is based on `invenio-vocabularies` and offers additional readers, transformers and jobs.
 
 :Readers:
     *Marc21CollectionReader* for a one-time import of Marc21-xml formatted authority collections
-    
+
     *MeshReader* to iterate through an XML-based MeSH description file
+
+    *WikidataAffiliationsReader* to read affiliation data from wikidata via its SPARQL endpoint
 
 :Transformers:
     *DdcYamlTransformer* for transformation of a yaml based DDC source file
 
     *GNDSubjectMarc21Transformer* to transform GND subjects
-    
+
     *MeSHSubjectXMLTransformer* for bilingual, XML-based MeSH sources
+
+    *WikidataSPARQLTransformer* for affiliations from wikidata
 
 :Jobs:
     *ProcessDDCJob* for an import of DDC subjects (to level 3) in different languages
@@ -31,7 +35,7 @@ This module is based on `invenio-vocabularies` and offers additional readers, tr
     *ImportCompleteGndSubjectsJob* for a one-time import of a GND authorities file
 
     *ProcessGNDSubjectsJob* for a regular OAI-PMH based harvesting of GND authorities
-    
+
     *ProcessMeshSubjectsJob* to process a full zipped XML-based MeSH file via http
 
-
+    *ProcessWikidataAffiliationsJob* to process affiliation data from wikidata's SPARQL endpoint
