@@ -29,7 +29,10 @@ class WikidataSPARQLTransformer(BaseTransformer):
         Transform wikidata data to internal format.
 
         Input:
-           A stream_entry.entry from SPARQLReader containing a dict with data about an organisation.
+           A stream_entry.entry from WikidataAffiliationsReader containing a dict with data about an organisation.
+           It contains the following entries, each with nested "value", "type" and (in case of labels) "xml:lang" fields:
+           org, orgLabel, acronym, countryLabel, CountryCode, rorID and one orgLabel_<lan> for each language configured in the instance.
+           Only org and orgLabel are required to be always present.
 
         Output:
           {
@@ -88,8 +91,6 @@ class WikidataSPARQLTransformer(BaseTransformer):
             element["country"] = stream_entry.entry.get("countryCode", {}).get(
                 "value", ""
             )
-
-        print(element)
 
         stream_entry.entry = element
         return stream_entry
