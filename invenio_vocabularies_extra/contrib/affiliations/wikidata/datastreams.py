@@ -103,3 +103,44 @@ VOCABULARIES_DATASTREAM_TRANSFORMERS = {
 VOCABULARIES_DATASTREAM_WRITERS = {
     "affiliations-service": AffiliationsServiceWriter,
 }
+
+WIKIDATA_PRESET_DATASTREAM_CONFIG = {
+    "readers": [
+        {
+            "type": "wikidata",
+            "args": {
+                "search_space":
+                    """
+                    {
+                       ?org wdt:P31?type.
+                        VALUES?type {
+                          wd:Q875538
+                          wd:Q161057
+                          wd:Q6019423
+                          wd:Q1365560
+                          wd:Q20168706
+                        }
+                      }
+                      UNION
+                      {
+                       ?org wdt:P463?parentType.
+                        VALUES?parentType {
+                          wd:Q679913
+                          wd:Q680090
+                          wd:Q158085
+                        }
+                      }
+
+                    ?org wdt:P17 wd:Q183.
+                    """,
+            },
+        },
+    ],
+    "transformers": [{"type": "wikidata"}],
+    "writers": [
+        {
+            "args": {"writer": {"type": "affiliations-service"}},
+            "type": "async",
+        }
+    ],
+}
