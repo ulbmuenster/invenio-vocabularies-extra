@@ -75,7 +75,14 @@ class WikidataAffiliationsReader(SPARQLReader):
         }}
         """
 
-        super().__init__(origin=origin, query=query, client_params=client_params, mode=mode, *args, **kwargs)
+        super().__init__(
+            origin=origin,
+            query=query,
+            client_params=client_params,
+            mode=mode,
+            *args,
+            **kwargs,
+        )
 
     def _iter(self, fp, *args, **kwargs):
         raise NotImplementedError(
