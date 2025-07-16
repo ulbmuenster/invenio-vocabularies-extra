@@ -44,6 +44,7 @@ class WikidataAffiliationsReader(SPARQLReader):
 
         :param search_space: Additional conditions for which items should be retrieved from wikidata.
         :param mode: Mode of operation (default is 'r' for reading).
+        :param client_params: Additional client parameters to pass to the SPARQL client.
         """
         origin = "https://query.wikidata.org/sparql"
 
