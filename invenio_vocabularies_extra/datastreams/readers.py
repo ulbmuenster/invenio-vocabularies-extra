@@ -39,7 +39,7 @@ class MeshReader(BaseReader):
 class WikidataAffiliationsReader(SPARQLReader):
     """Reader class to fetch and process affiliations data from Wikidata."""
 
-    def __init__(self, search_space, client_params, mode="r", *args, **kwargs):
+    def __init__(self, search_space, client_params=None, mode="r", *args, **kwargs):
         """Initialize the reader with the data source.
 
         :param search_space: Additional conditions for which items should be retrieved from wikidata.
