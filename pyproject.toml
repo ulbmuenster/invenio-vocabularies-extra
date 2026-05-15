@@ -1,0 +1,142 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2026 University of Münster.
+#
+# invenio-vocabularies-extra is free software; you can redistribute it and/or
+# modify it under the terms of the MIT License; see LICENSE file for more
+# details.
+
+[build-system]
+requires = ["hatchling==1.26.3", "babel>=2.16.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "invenio_vocabularies_extra/__init__.py"
+
+[tool.hatch.metadata]
+readme = { paths = ["README.rst", "CHANGES.rst"], content-type = "text/x-rst" }
+
+[tool.hatch.build]
+include = ["invenio_vocabularies_extra/**/*"]
+
+[[tool.uv.index]]
+name = "gitlab"
+url = "https://zivgitlab.uni-muenster.de/api/v4/groups/12961/-/packages/pypi/simple"
+publish-url = "https://zivgitlab.uni-muenster.de/api/v4/groups/12961/packages/pypi/"
+authenticate = "always"
+explicit = true
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[project]
+name = "invenio_vocabularies_extra"
+dynamic = ["version", "readme"]
+description = "Add some extras to the vocabularies module like DDC and GND subjects."
+keywords = ["invenio", "DDC", "GND"]
+license = { text = "MIT" }
+authors = [{ name = "University of Münster", email = "forschungsdaten@uni-muenster.de" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+]
+urls = { Homepage = "https://github.com/ulbmuenster/invenio-vocabularies-extra" }
+requires-python = ">=3.12"
+dependencies = [
+    "invenio-base>=2.0.0",
+    "invenio-oaipmh-scythe>=0.13.0",
+    "invenio-vocabularies[opensearch2]>=7.0.0",
+    "arrow>=1.3.0",
+    "lxml>=5.3.0",
+]
+
+[project.optional-dependencies]
+tests = [
+    "check-manifest",
+    "pytest>=8.0.0",
+    "pytest-black-ng>=0.4.0",
+    "pytest-cov==6.1.1",
+    "pytest-docstyle==2.0.1",
+    "pytest-env==1.1.5",
+    "pytest-invenio>=3.3.0",
+    "pytest-isort==4.0.0",
+    "pytest-mock>=3.12.0",
+    "invenio-app>=2.1.0",
+    "Sphinx>=4.5.0",
+    "opensearch-dsl>=2.1.0",
+]
+
+# Entry points
+[project.entry-points."invenio_base.apps"]
+invenio_vocabularies_extra = "invenio_vocabularies_extra:InvenioExtraVocabularies"
+
+[project.entry-points."invenio_jobs.jobs"]
+process_ddc_subjects = "invenio_vocabularies_extra.jobs:ProcessDDCJob"
+process_gnd_subjects = "invenio_vocabularies_extra.jobs:ProcessGNDSubjectsJob"
+import_gnd_subjects = "invenio_vocabularies_extra.jobs:ImportCompleteGndSubjectsJob"
+import_mesh_subjects = "invenio_vocabularies_extra.jobs:ProcessMeshSubjectsJob"
+import_wikidata_affiliations = "invenio_vocabularies_extra.jobs:ProcessWikidataAffiliationsJob"
+
+[tool.pydocstyle]
+add-ignore = ["D401", "D403"]
+
+[tool.isort]
+profile = "black"
+
+[tool.check-manifest]
+ignore = [
+    "*-requirements.txt",
+    "requirements-*.txt",
+    ".editorconfig",
+    ".dockerignore",
+    ".tx/config",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "*.in",
+    "*.ini",
+    "*.rst",
+    "*.sh",
+    "*.yml",
+    "babel.ini",
+    "invenio_vocabularies_extra/**/*.py",
+    "invenio_vocabularies_extra/**/*.html",
+    "tests/*.py",
+]
+
+[tool.pytest.ini_options]
+addopts = """
+--black --isort --doctest-glob='*.rst' --doctest-modules
+--cov=invenio_vocabularies_extra --cov-report term --cov-report xml:coverage.xml --junitxml=report.xml
+"""
+testpaths = ["tests", "invenio_vocabularies_extra"]
+
+[tool.babel]
+copyright_holder = "University of Münster"
+msgid_bugs_address = "forschungsdaten@uni-muenster.de"
+
+[tool.babel.compile_catalog]
+directory = "invenio_vocabularies_extra/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+mapping_file = "babel.ini"
+output_file = "invenio_vocabularies_extra/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_vocabularies_extra/translations/messages.pot"
+output_dir = "invenio_vocabularies_extra/translations/"
+
+[tool.babel.update_catalog]
+input_file = "invenio_vocabularies_extra/translations/messages.pot"
+output_dir = "invenio_vocabularies_extra/translations/"
+
+[tool.build_sphinx]
+source-dir = "docs/"
+build-dir = "docs/_build"
+all_files = true
