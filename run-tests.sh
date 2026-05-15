@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2025 University of Münster.
+# Copyright (C) 2025-2026 University of Münster.
 #
 # invenio-vocabularies-extra is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -16,8 +16,11 @@ set -o errexit
 # Quit on unbound symbols
 set -o nounset
 
+# Ensure the test extra is installed before running checks.
+uv sync --extra tests --locked
+
 # Manifest check
-python -m check_manifest
+./.venv/bin/python -m check_manifest
 
 # Pytests
-python -m pytest
+./.venv/bin/python -m pytest

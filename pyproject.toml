@@ -115,7 +115,7 @@ addopts = """
 --black --isort --doctest-glob='*.rst' --doctest-modules
 --cov=invenio_vocabularies_extra --cov-report term --cov-report xml:coverage.xml --junitxml=report.xml
 """
-testpaths = ["tests", "invenio_vocabularies_extra"]
+testpaths = ["tests"]
 
 [tool.babel]
 copyright_holder = "University of Münster"
