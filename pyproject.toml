@@ -90,6 +90,7 @@ profile = "black"
 ignore = [
     "*-requirements.txt",
     "requirements-*.txt",
+    "uv.lock",
     ".editorconfig",
     ".dockerignore",
     ".tx/config",
@@ -105,6 +106,7 @@ include = [
     "babel.ini",
     "invenio_vocabularies_extra/**/*.py",
     "invenio_vocabularies_extra/**/*.html",
+    "invenio_vocabularies_extra/**/*.yaml",
     "tests/*.py",
 ]
 
