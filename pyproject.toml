@@ -33,7 +33,7 @@ publish-url = "https://test.pypi.org/legacy/"
 explicit = true
 
 [project]
-name = "invenio_vocabularies_extra"
+name = "invenio-vocabularies-extra"
 dynamic = ["version", "readme"]
 description = "Add some extras to the vocabularies module like DDC and GND subjects."
 keywords = ["invenio", "DDC", "GND"]

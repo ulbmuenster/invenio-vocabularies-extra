@@ -8,7 +8,11 @@
 Changes
 =======
 
-Version 0.2.0 (teleased 2026-05-15)
+Version 0.3.0 (released 2026-05-18)
+
+- fix: project name contains underscores instead of dashes
+
+Version 0.2.0 (released 2026-05-15)
 
 - switched build to uv instead of pip
 - added some fourth level elements to DDC
