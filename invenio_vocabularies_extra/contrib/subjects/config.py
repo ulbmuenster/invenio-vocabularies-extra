@@ -18,3 +18,7 @@ gnd_file_url = LocalProxy(
 mesh_file_url = LocalProxy(
     lambda: current_app.config["VOCABULARIES_EXTRA_SUBJECTS_MESH_FILE_URL"]
 )
+
+oclc_ddc_url = LocalProxy(
+    lambda: current_app.config["VOCABULARIES_EXTRA_SUBJECTS_DDC_START_URL"]
+)

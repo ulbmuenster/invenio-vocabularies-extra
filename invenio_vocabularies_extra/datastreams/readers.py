@@ -8,8 +8,13 @@
 
 """Extra Readers module."""
 
+import requests
 from invenio_i18n.proxies import current_i18n
-from invenio_vocabularies.datastreams.readers import BaseReader, SPARQLReader
+from invenio_vocabularies.datastreams.readers import (
+    BaseReader,
+    SimpleHTTPReader,
+    SPARQLReader,
+)
 from lxml import etree
 
 
@@ -89,3 +94,42 @@ class WikidataAffiliationsReader(SPARQLReader):
         raise NotImplementedError(
             "WikidataAffiliationsReader downloads one result set from the wikidata SPARQL endpoint and therefore does not iterate through items"
         )
+
+
+class OclcDdcReader(SimpleHTTPReader):
+    """Reader class to fetch all DDC record files from OCLC."""
+
+    def __init__(self, origin, content_type, *args, **kwargs):
+        """Constructor."""
+        super().__init__(origin=origin, content_type=content_type, *args, **kwargs)
+
+    def _iter(self, url, *args, **kwargs):
+        """Yield leaf concepts from the DDC hierarchy at the URL."""
+        headers = {"Accept": self.content_type}
+
+        resp = requests.get(url, headers=headers)
+        if resp.status_code != 200:
+            raise requests.HTTPError(
+                f"Failed to fetch URL {url}: {resp.status_code}", response=resp
+            )
+
+        content = resp.json()
+        if "hasTopConcept" in content:
+            child_urls = content["hasTopConcept"]
+        elif "narrower" in content:
+            child_urls = content["narrower"]
+        else:
+            yield content
+            return
+
+        for child_url in child_urls:
+            yield from self._iter(child_url, *args, **kwargs)
+
+    def read(self, item=None, *args, **kwargs):
+        """Reads from item or the url."""
+        if item:
+            raise NotImplementedError(
+                "OCLCDDCReader does not support being chained after another reader"
+            )
+        else:
+            yield from self._iter(url=self._origin, *args, **kwargs)

@@ -11,6 +11,7 @@
 from .datastreams.readers import (
     Marc21CollectionReader,
     MeshReader,
+    OclcDdcReader,
     WikidataAffiliationsReader,
 )
 
@@ -30,8 +31,12 @@ VOCABULARIES_EXTRA_SUBJECTS_MESH_FILE_URL = (
 )
 """URI to the MeSH authorities file. Provide an URI fitting to VOCABULARIES_EXTRA_SUBJECTS_MESH_LANG."""
 
+VOCABULARIES_EXTRA_SUBJECTS_DDC_START_URL = "https://id.oclc.org/worldcat/ddc/"
+"""URI to the first DDC authorities file. This will contain further links."""
+
 VOCABULARIES_DATASTREAM_READERS = {
     "marc21": Marc21CollectionReader,
     "mesh-xml": MeshReader,
     "wikidata": WikidataAffiliationsReader,
+    "oclc-ddc": OclcDdcReader,
 }

@@ -13,6 +13,17 @@ from invenio_i18n.proxies import current_i18n
 from invenio_vocabularies.contrib.subjects.datastreams import SubjectsServiceWriter
 from invenio_vocabularies.datastreams.transformers import BaseTransformer
 
+from ..config import oclc_ddc_url
+
+
+class DdcJsonTransformer(BaseTransformer):
+    """Custom datastream transformer for DDC subjects."""
+
+    def __init__(self, *args, **kwargs):
+        """Initializes the transformer."""
+        super().__init__(*args, **kwargs)
+        self._supported_languages = current_i18n.get_languages()
+
 
 class DdcYamlTransformer(BaseTransformer):
     """Custom datastream transformer for DDC subjects."""
@@ -96,9 +107,10 @@ VOCABULARIES_DATASTREAM_WRITERS = {
 DDC_PRESET_DATASTREAM_CONFIG = {
     "readers": [
         {
-            "type": "yaml",
+            "type": "oclc-ddc",
             "args": {
-                "origin": "/home/gressho/Dokumente/ddc.yaml",
+                "origin": oclc_ddc_url,
+                "content_type": "application/json",
             },
         },
     ],
