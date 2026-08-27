@@ -14,6 +14,7 @@ from invenio_vocabularies_extra.contrib.affiliations.wikidata.datastreams import
     WikidataSPARQLTransformer,
 )
 from invenio_vocabularies_extra.contrib.subjects.ddc.datastreams import (
+    DdcJsonTransformer,
     DdcYamlTransformer,
 )
 from invenio_vocabularies_extra.contrib.subjects.mesh.datastreams import (
@@ -31,6 +32,57 @@ def test_ddc_transformer(app, expected_ddc_result):
 
     transformer = DdcYamlTransformer()
     assert expected_ddc_result == transformer.apply(ddc_entry).entry
+
+
+def test_ddc_json_transformer(app):
+    ddc = {
+        "id": "https://id.oclc.org/worldcat/ddc/E3QVkT9mbHQ9brHHgvBtwj7JfQ",
+        "notation": "839",
+        "prefLabel": {
+            "de": "Andere germanische Literaturen",
+            "en": "Other Germanic literatures",
+            "fr": "Autres littératures germaniques",
+            "it": "Altre letterature germaniche",
+        },
+    }
+
+    result = DdcJsonTransformer().apply(StreamEntry(ddc)).entry
+
+    assert result == {
+        "id": "839",
+        "scheme": "DDC",
+        "title": {
+            "de": "Andere germanische Literaturen",
+            "en": "Other Germanic literatures",
+            "fr": "Autres littératures germaniques",
+        },
+        "subject": "Andere germanische Literaturen",
+        "synonyms": [],
+        "identifiers": [
+            {
+                "scheme": "url",
+                "identifier": "https://id.oclc.org/worldcat/ddc/E3QVkT9mbHQ9brHHgvBtwj7JfQ",
+            }
+        ],
+    }
+
+
+def test_ddc_json_transformer_falls_back_to_english(app):
+    app.config["VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG"] = "it"
+    ddc = {
+        "id": "https://id.oclc.org/worldcat/ddc/example",
+        "notation": "839",
+        "prefLabel": {
+            "de": "Andere germanische Literaturen",
+            "en": "Other Germanic literatures",
+            "it": "Altre letterature germaniche",
+        },
+    }
+
+    result = DdcJsonTransformer().apply(StreamEntry(ddc)).entry
+
+    assert result["subject"] == "Other Germanic literatures"
+    assert "it" not in result["title"]
 
 
 def test_mesh_transformer(app, expected_mesh_result):

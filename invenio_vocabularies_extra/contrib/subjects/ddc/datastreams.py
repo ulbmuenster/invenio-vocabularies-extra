@@ -24,6 +24,84 @@ class DdcJsonTransformer(BaseTransformer):
         super().__init__(*args, **kwargs)
         self._supported_languages = current_i18n.get_languages()
 
+    def apply(self, stream_entry, **kwargs):
+        """
+        Transform OCLC Json data to internal format.
+
+        Input:
+           A stream_entry.entry is a json of the form:
+            {
+                "id":"https://id.oclc.org/worldcat/ddc/E3QVkT9mbHQ9brHHgvBtwj7JfQ",
+                "modified":"2026-03-10T11:22:49Z",
+                "prefLabel": {
+                    "it":"Altre letterature germaniche",
+                    "de":"Andere germanische Literaturen",
+                    "fr":"Autres littératures germaniques",
+                    "en":"Other Germanic literatures",
+                    "sv":"Övriga germanska litteraturer",
+                    "no":"Andre germanske språks litteraturer",
+                    "es":"Otras literaturas germánicas"
+                },
+                "broader":"https://id.oclc.org/worldcat/ddc/E3VPVRyYy7TpBhRPXrFW6mp6HX",
+                "type":"Concept",
+                "created":"1996-06-01",
+                "notation":"839",
+                "inScheme":"https://id.oclc.org/worldcat/ddc/",
+                "@context":"https://id.oclc.org/worldcat/ddc/context.json"
+            }
+
+        Output:
+           {
+               "id": "839",
+               "scheme": "DDC",
+               "title": {
+                   "de": "Andere germanische Literaturen",
+                   "en": "Other Germanic literatures",
+               },
+               "subject": "Andere germanische Literaturen",
+               "synonyms": [],
+               "identifiers": [
+                   {
+                       "scheme": "url",
+                       "identifier": "https://id.oclc.org/worldcat/ddc/E3QVkT9mbHQ9brHHgvBtwj7JfQ",
+                   }
+               ],
+           }
+        """
+        entry_data = stream_entry.entry
+        default_lang = current_app.config["VOCABULARIES_EXTRA_SUBJECTS_DDC_LANG"]
+        default_lang_supported = False
+        for language in self._supported_languages:
+            if default_lang in language:
+                default_lang_supported = True
+        if not default_lang_supported:
+            default_lang = "en"
+
+        result = {
+            "title": {},
+            "subject": "",
+            "id": entry_data["notation"],
+            "scheme": "DDC",
+            "synonyms": [],
+            "identifiers": [
+                {
+                    "scheme": "url",
+                    "identifier": entry_data["id"],
+                }
+            ],
+        }
+        for lang in self._supported_languages:
+            language_code = lang[0]
+            if language_code in entry_data["prefLabel"]:
+                result["title"][language_code] = entry_data["prefLabel"][
+                    language_code
+                ]
+            if language_code == default_lang:
+                result["subject"] = entry_data["prefLabel"][language_code]
+
+        stream_entry.entry = result
+        return stream_entry
+
 
 class DdcYamlTransformer(BaseTransformer):
     """Custom datastream transformer for DDC subjects."""
@@ -95,7 +173,7 @@ class DdcYamlTransformer(BaseTransformer):
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "ddc-subjects": DdcYamlTransformer,
+    "ddc-subjects": DdcJsonTransformer,
 }
 
 
