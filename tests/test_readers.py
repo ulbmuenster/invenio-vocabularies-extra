@@ -37,11 +37,11 @@ def test_oclc_ddc_reader_yields_leaves_depth_first(mocker):
         origin: {"hasTopConcept": [top_one, top_two]},
         top_one: {"id": "1", "narrower": [branch, leaf_two, repeated_leaf]},
         branch: {"id": "1.1", "narrower": [leaf_one]},
-        leaf_one: {"id": "1.1.1"},
-        leaf_two: {"id": "1.2"},
+        leaf_one: {"id": "1.1.1", "prefLabel": {"en": "Something"}},
+        leaf_two: {"id": "1.2", "prefLabel": {"en": "Something"}},
         top_two: {"id": "2", "narrower": [leaf_three, repeated_leaf]},
-        leaf_three: {"id": "2.1"},
-        repeated_leaf: {"id": "repeated"},
+        leaf_three: {"id": "2.1", "prefLabel": {"en": "Something"}},
+        repeated_leaf: {"id": "repeated", "prefLabel": {"en": "Something"}},
     }
     get = mocker.patch(
         "invenio_vocabularies_extra.datastreams.readers.requests.get",

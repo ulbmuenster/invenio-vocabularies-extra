@@ -56,7 +56,7 @@ def test_ddc_json_transformer(app):
             "en": "Other Germanic literatures",
             "fr": "Autres littératures germaniques",
         },
-        "subject": "Andere germanische Literaturen",
+        "subject": "839 Andere germanische Literaturen",
         "synonyms": [],
         "identifiers": [
             {
@@ -81,7 +81,7 @@ def test_ddc_json_transformer_falls_back_to_english(app):
 
     result = DdcJsonTransformer().apply(StreamEntry(ddc)).entry
 
-    assert result["subject"] == "Other Germanic literatures"
+    assert result["subject"] == "839 Other Germanic literatures"
     assert "it" not in result["title"]
 
 
