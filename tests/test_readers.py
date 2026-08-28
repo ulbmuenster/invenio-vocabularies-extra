@@ -13,7 +13,7 @@ from unittest.mock import call
 import pytest
 import requests
 
-from invenio_vocabularies_extra.datastreams.readers import OCLCDDCReader
+from invenio_vocabularies_extra.datastreams.readers import OclcDdcReader
 
 
 def response(mocker, content, status_code=200):
@@ -47,7 +47,7 @@ def test_oclc_ddc_reader_yields_leaves_depth_first(mocker):
         "invenio_vocabularies_extra.datastreams.readers.requests.get",
         side_effect=lambda url, **kwargs: response(mocker, payloads[url]),
     )
-    reader = OCLCDDCReader(origin=origin, content_type="application/json")
+    reader = OclcDdcReader(origin=origin, content_type="application/json")
 
     assert list(reader.read()) == [
         {"id": "1.1.1"},
@@ -81,7 +81,7 @@ def test_oclc_ddc_reader_raises_for_failed_request(mocker):
             response(mocker, {}, status_code=503),
         ],
     )
-    reader = OCLCDDCReader(origin=origin, content_type="application/json")
+    reader = OclcDdcReader(origin=origin, content_type="application/json")
 
     with pytest.raises(requests.HTTPError, match=f"{failed_url}: 503"):
         list(reader.read())
