@@ -50,11 +50,11 @@ def test_oclc_ddc_reader_yields_leaves_depth_first(mocker):
     reader = OclcDdcReader(origin=origin, content_type="application/json")
 
     assert list(reader.read()) == [
-        {"id": "1.1.1"},
-        {"id": "1.2"},
-        {"id": "repeated"},
-        {"id": "2.1"},
-        {"id": "repeated"},
+        {"id": "1.1.1", "prefLabel": {"en": "Something"}},
+        {"id": "1.2", "prefLabel": {"en": "Something"}},
+        {"id": "repeated", "prefLabel": {"en": "Something"}},
+        {"id": "2.1", "prefLabel": {"en": "Something"}},
+        {"id": "repeated", "prefLabel": {"en": "Something"}},
     ]
     headers = {"Accept": "application/json"}
     assert get.call_args_list == [
