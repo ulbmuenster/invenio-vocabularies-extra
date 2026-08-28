@@ -119,7 +119,8 @@ class OclcDdcReader(SimpleHTTPReader):
         elif "narrower" in content:
             child_urls = content["narrower"]
         else:
-            yield content
+            if not content["prefLabel"]["en"].startswith("["):
+                yield content
             return
 
         for child_url in child_urls:

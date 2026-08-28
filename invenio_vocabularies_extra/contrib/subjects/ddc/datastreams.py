@@ -97,7 +97,7 @@ class DdcJsonTransformer(BaseTransformer):
                     language_code
                 ]
             if language_code == default_lang:
-                result["subject"] = entry_data["prefLabel"][language_code]
+                result["subject"] = f"{entry_data['notation']} {entry_data['prefLabel'][language_code]}"
 
         stream_entry.entry = result
         return stream_entry
