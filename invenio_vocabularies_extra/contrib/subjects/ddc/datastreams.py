@@ -173,7 +173,8 @@ class DdcYamlTransformer(BaseTransformer):
 
 
 VOCABULARIES_DATASTREAM_TRANSFORMERS = {
-    "ddc-subjects": DdcJsonTransformer,
+    "ddc-subjects-from-json": DdcJsonTransformer,
+    "ddc-subjects-from-yaml": DdcYamlTransformer,
 }
 
 
@@ -192,7 +193,7 @@ DDC_PRESET_DATASTREAM_CONFIG = {
             },
         },
     ],
-    "transformers": [{"type": "ddc-subjects"}],
+    "transformers": [{"type": "ddc-subjects-from-json"}],
     "writers": [
         {
             "args": {"writer": {"type": "subjects-service"}},
