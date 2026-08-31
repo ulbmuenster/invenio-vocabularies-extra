@@ -7,6 +7,7 @@
 # details.
 
 """Custom jobs module."""
+
 import arrow
 from invenio_vocabularies.jobs import ProcessDataStreamJob
 
